@@ -6,7 +6,7 @@ from flask import session, g
 
 
 def protected(route_function):
-    @wraps(route_fuction)
+    @wraps(route_function)
     def wrapped_route_function(**kwargs):
         if g.user is None:
             return redirect(url_for('admin.login'))
