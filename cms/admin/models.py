@@ -17,8 +17,10 @@ class Content(db.Model):
     type_id = db.Column(db.Integer, db.ForeignKey('type.id'), nullable=False)
     type = db.relationship('Type', backref=db.backref('Content', lazy=True))
     body = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
-    updated_at = db.Column(db.DateTime, nullable=False, default=datetime.utcnow())
+    created_at = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow())
+    updated_at = db.Column(db.DateTime, nullable=False,
+                           default=datetime.utcnow())
 
 
 class Setting(db.Model):

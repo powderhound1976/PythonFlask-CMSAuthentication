@@ -1,11 +1,12 @@
+from cms.admin import auth
 from flask import Blueprint, render_template, abort, request, redirect, url_for, flash, g
-
 from cms.admin.models import Content, Type, User, Setting, db
 from datetime import datetime
 
-from cms.admin import auth
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
+
+from cms.admin import auth
 
 
 def requested_type(type):
@@ -23,6 +24,7 @@ def content(type):
     else:
         abort(404)
 
+
 @admin_bp.route('/create/<type>', methods=('GET', 'POST'))
 @auth.protected
 def create(type):
@@ -33,24 +35,25 @@ def create(type):
             type_id = request.form['type_id']
             body = request.form['body']
             error = None
-            
+
             if not title:
                 error = 'Title is required.'
             elif not type_id:
                 error = 'Type is required.'
-                
+
             if error is None:
                 content = Content(title=title, slug=slug, type_id=type_id, body=body)
                 db.session.add(content)
                 db.session.commit()
                 return redirect(url_for('admin.content', type=type))
-        
+
             flash(error)
 
         types = Type.query.all()
         return render_template('admin/content_form.html', title='Create', types=types, type_name=type)
     else:
         abort(404)
+
 
 @admin_bp.route('/edit/<id>', methods=('GET', 'POST'))
 @auth.protected
@@ -79,11 +82,13 @@ def edit(id):
     types = Type.query.all()
     return render_template('admin/content_form.html', types=types, title='Edit', item_title=content.title, slug=content.slug, type_name=type.name, type_id=content.type_id, body=content.body)
 
+
 @admin_bp.route('/users')
 @auth.protected
 def users():
     users = User.query.all()
     return render_template('admin/users.html', title='Users', users=users)
+
 
 @admin_bp.route('/settings')
 @auth.protected
