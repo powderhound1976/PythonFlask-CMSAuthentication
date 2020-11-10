@@ -8,10 +8,10 @@ from cms.admin import auth
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
 
 
-
 def requested_type(type):
     types = [row.name for row in Type.query.all()]
     return True if type in types else False
+
 
 @admin_bp.route('/', defaults={'type': 'page'})
 @admin_bp.route('/<type>')
