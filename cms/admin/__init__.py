@@ -1,11 +1,9 @@
-from cms.admin import auth
 from flask import Blueprint, render_template, abort, request, redirect, url_for, flash, g
 from cms.admin.models import Content, Type, User, Setting, db
 from datetime import datetime
 
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin', template_folder='templates')
-
 from cms.admin import auth
 
 
